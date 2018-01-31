@@ -25,6 +25,13 @@ $messagetimer = new Deathcounter($Players,60);
 $restimer = new Deathcounter($Players, 34);
 $unitsTimer = new Deathcounter($Players, 60);
 
+// Victory/Defeat
+$TeamOne->_if(Bring($PT1, "Buildings", "At Most", 0, "ReplaceBottom"))->then(Defeat(), Comment("TeamOneDefeat"));
+$TeamOne->_if(Bring($PT2, "Buildings", "At Most", 0, "ReplaceTop"))->then(Victory(), Comment("TeamOneVictory"));
+
+$TeamTwo->_if(Bring($PT1, "Buildings", "At Most", 0, "ReplaceBottom"))->then(Victory(), Comment("TeamTwoVictory"));
+$TeamTwo->_if(Bring($PT2, "Buildings", "At Most", 0, "ReplaceTop"))->then(Defeat(), Comment("TeamTwoDefeat"));
+
 // Timers
 $Players->justonce($messagetimer->setTo(60));
 $Players->justonce($restimer->setTo(34));
@@ -48,77 +55,10 @@ $Players->_if( $restimer->exactly(0), Accumulate($P, "At Most", 14, "ore") )->th
 '');
 
 
-// Welcome message
-$Players->_if($messagetimer->exactly(60))->then(
-		Display('\x013\x01fW'), '');
-$Players->_if($messagetimer->exactly(58))->then(
-		ClearText(),
-		Display('\x013\x01eW\x01fe'), '');
-$Players->_if($messagetimer->exactly(56))->then(
-		ClearText(),
-		Display('\x013\x01dW\x01ee\x01fl'), '');
-$Players->_if($messagetimer->exactly(54))->then(
-		ClearText(),
-		Display('\x013\x01cW\x01de\x01el\x01fc'), '');
-$Players->_if($messagetimer->exactly(52))->then(
-		ClearText(),
-		Display('\x013\x01bW\x01ce\x01el\x01dc\x01fo'), '');
-$Players->_if($messagetimer->exactly(50))->then(
-		ClearText(),
-		Display('\x013\x01aW\x01be\x01cl\x01dc\x01eo\x01fm'), '');
-$Players->_if($messagetimer->exactly(48))->then(
-		ClearText(),
-		Display('\x013\x019W\x01ae\x01bl\x01cc\x01do\x01em\x01fe'), '');
-$Players->_if($messagetimer->exactly(46))->then(
-		ClearText(),
-		Display('\x013\x018W\x019e\x01al\x01bc\x01co\x01dm\x01ee \x01ft'), '');
-$Players->_if($messagetimer->exactly(44))->then(
-		ClearText(),
-		Display('\x013\x017W\x018e\x019l\x01ac\x01bo\x01cm\x01de \x01et\x01fo'), '');
-$Players->_if($messagetimer->exactly(42))->then(
-		ClearText(),
-		Display('\x013\x016W\x017e\x018l\x019c\x01ao\x01bm\x01ce \x01dt\x01eo \x01fS'), '');
-$Players->_if($messagetimer->exactly(40))->then(
-		ClearText(),
-		Display('\x013\x015W\x016e\x017l\x018c\x019o\x01am\x01be \x01ct\x01do \x01eS\x01ft'), '');
-$Players->_if($messagetimer->exactly(38))->then(
-		ClearText(),
-		Display('\x013\x011W\x015e\x016l\x017c\x018o\x019m\x01ae \x01bt\x01co \x01dS\x01et\x01fa'), '');
-$Players->_if($messagetimer->exactly(36))->then(
-		ClearText(),
-		Display('\x013\x010W\x011e\x015l\x016c\x017o\x018m\x019e \x01at\x01bo \x01cS\x01dt\x01ea\x01fr'), '');
-$Players->_if($messagetimer->exactly(34))->then(
-		ClearText(),
-		Display('\x013\x00fW\x010e\x011l\x015c\x016o\x017m\x018e \x019t\x01ao \x01bS\x01ct\x01da\x01er\x01fC'), '');
-$Players->_if($messagetimer->exactly(32))->then(
-		ClearText(),
-		Display('\x013\x00eW\x00fe\x010l\x011c\x015o\x016m\x017e \x018t\x019o \x01aS\x01bt\x01ca\x01dr\x01eC\x01fl'), '');
-$Players->_if($messagetimer->exactly(30))->then(
-		ClearText(),
-		Display('\x013\x008W\x00ee\x00fl\x010c\x011o\x015m\x016e \x017t\x018o \x019S\x01at\x01ba\x01cr\x01dC\x01el\x01fa'), '');
-$Players->_if($messagetimer->exactly(28))->then(
-		ClearText(),
-		Display('\x013\x007W\x008e\x00el\x00fc\x010o\x011m\x015e \x016t\x017o \x018S\x019t\x01aa\x01br\x01cC\x01dl\x01ea\x01fs'), '');
-$Players->_if($messagetimer->exactly(26))->then(
-		ClearText(),
-		Display('\x013\x006W\x007e\x008l\x00ec\x00fo\x010m\x011e \x015t\x016o \x017S\x018t\x019a\x01ar\x01bC\x01cl\x01da\x01es\x01fh'), '');
-$Players->_if($messagetimer->exactly(24))->then(
-		ClearText(),
-		Display('\x013\x006W\x007e\x008l\x00ec\x00fo\x010m\x011e \x015t\x016o \x017S\x018t\x019a\x01ar\x01bC\x01cl\x01da\x01es\x01fh \x002!\x005!'), '');
-$Players->_if($messagetimer->exactly(22))->then(
-		ClearText(),
-		Display('\x013\x006W\x007e\x008l\x00ec\x00fo\x010m\x011e \x015t\x016o \x017S\x018t\x019a\x01ar\x01bC\x01cl\x01da\x01es\x01fh \x004!\x003!\x001!'), '');
 
 // Alliances
 $TeamOne->always(SetAlly($TeamOne), SetEnemy($TeamTwo));
 $TeamTwo->always(SetAlly($TeamTwo), SetEnemy($TeamOne));
-
-// Victory/Defeat
-$TeamOne->_if(Bring($PT1, "Buildings", "At Most", 0, "ReplaceBottom"))->then(Defeat(), Comment("TeamOneDefeat"));
-$TeamOne->_if(Bring($PT2, "Buildings", "At Most", 0, "ReplaceTop"))->then(Victory(), Comment("TeamOneVictory"));
-
-$TeamTwo->_if(Bring($PT1, "Buildings", "At Most", 0, "ReplaceBottom"))->then(Victory(), Comment("TeamTwoVictory"));
-$TeamTwo->_if(Bring($PT2, "Buildings", "At Most", 0, "ReplaceTop"))->then(Defeat(), Comment("TeamTwoDefeat"));
 
 // Tracking Zones
 $P1->always(MoveLocation('P1u', CP, 'Protoss Observer', 'Anywhere'));
@@ -160,10 +100,10 @@ $PT1->_if($unitsTimer->atMost(1), Bring($PT2, "Terran Bunker", "Exactly", 0, "To
 $PT1->_if($unitsTimer->atMost(1), Bring($PT2, "Terran Bunker", "Exactly", 0, "Tower2"))->then(Order($P, "Men", "MapTopRight", "Attack", "ReplaceTop"));
 */
 
-$PT2->_if($unitsTimer->atMost(1))->then(Order($P, "Men", "MapTopLeft", "Attack", "Tower4"));
-$PT2->_if($unitsTimer->atMost(1))->then(Order($P, "Men", "MapTopRight", "Attack", "Tower3"));
-$PT2->_if($unitsTimer->atMost(1), Bring($PT1, "Terran Bunker", "Exactly", 0, "Tower3"))->then(Order($P, "Men", "MapBottomRight", "Attack", "ReplaceBottom"));
-$PT2->_if($unitsTimer->atMost(1), Bring($PT1, "Terran Bunker", "Exactly", 0, "Tower4"))->then(Order($P, "Men", "MapBottomLeft", "Attack", "ReplaceBottom"));
+$PT2->_if($unitsTimer->atMost(1))->then(Order($P, "Men", "MapTopLeft", "Patrol", "Tower4"));
+$PT2->_if($unitsTimer->atMost(1))->then(Order($P, "Men", "MapTopRight", "Patrol", "Tower3"));
+$PT2->_if($unitsTimer->atMost(1), Bring($PT1, "Terran Bunker", "Exactly", 0, "Tower3"))->then(Order($P, "Men", "MapBottomRight", "Patrol", "ReplaceBottom"));
+$PT2->_if($unitsTimer->atMost(1), Bring($PT1, "Terran Bunker", "Exactly", 0, "Tower4"))->then(Order($P, "Men", "MapBottomLeft", "Patrol", "ReplaceBottom"));
 
 
 // Units !
@@ -176,6 +116,8 @@ $P1->
 	_if(Bring($P, "Protoss Probe", "At Least", 1, "T1u01"), Accumulate($P, "At Least", 1, "ore"))
 	->then(CreateUnit($PT1, "Zerg Zergling", 2, "P1u"), SetResources($P, "Subtract", 1, "ore"), MoveUnit($P, "Protoss Probe", 1, "T1u01", "T1u01b"),
 		_if(Bring($P, "Protoss Observer", "Exactly", 1, "MapBottomLeft"))
+			->then(Order($PT1, "Men", "MapBottomLeft", "Attack", "MapTopLeft")),
+		_elseif(Bring($P, "Protoss Observer", "Exactly", 1, "MapBottomRight")),
 			->then(Order($PT1, "Men", "MapBottomLeft", "Attack", "MapTopLeft")),
 	'');
 
@@ -309,6 +251,67 @@ $P7->_if(Bring($P, "Protoss Probe", "At Least", 1, "T2u14"), Accumulate($P, "At 
 $P8->_if(Bring($P, "Protoss Probe", "At Least", 1, "T2u14"), Accumulate($P, "At Least", 14, "ore"))->then(CreateUnit($PT2, "Terran Battlecruiser", 2, "P8u"), SetResources($P, "Subtract", 14, "ore"), MoveUnit($P, "Protoss Probe", 1, "T2u14", "T2u14b"), $unitsTimer->setTo(1));
 
 
+
+// Welcome message
+$Players->_if($messagetimer->exactly(60))->then(
+		Display('\x013\x01fW'), '');
+$Players->_if($messagetimer->exactly(58))->then(
+		ClearText(),
+		Display('\x013\x01eW\x01fe'), '');
+$Players->_if($messagetimer->exactly(56))->then(
+		ClearText(),
+		Display('\x013\x01dW\x01ee\x01fl'), '');
+$Players->_if($messagetimer->exactly(54))->then(
+		ClearText(),
+		Display('\x013\x01cW\x01de\x01el\x01fc'), '');
+$Players->_if($messagetimer->exactly(52))->then(
+		ClearText(),
+		Display('\x013\x01bW\x01ce\x01el\x01dc\x01fo'), '');
+$Players->_if($messagetimer->exactly(50))->then(
+		ClearText(),
+		Display('\x013\x01aW\x01be\x01cl\x01dc\x01eo\x01fm'), '');
+$Players->_if($messagetimer->exactly(48))->then(
+		ClearText(),
+		Display('\x013\x019W\x01ae\x01bl\x01cc\x01do\x01em\x01fe'), '');
+$Players->_if($messagetimer->exactly(46))->then(
+		ClearText(),
+		Display('\x013\x018W\x019e\x01al\x01bc\x01co\x01dm\x01ee \x01ft'), '');
+$Players->_if($messagetimer->exactly(44))->then(
+		ClearText(),
+		Display('\x013\x017W\x018e\x019l\x01ac\x01bo\x01cm\x01de \x01et\x01fo'), '');
+$Players->_if($messagetimer->exactly(42))->then(
+		ClearText(),
+		Display('\x013\x016W\x017e\x018l\x019c\x01ao\x01bm\x01ce \x01dt\x01eo \x01fS'), '');
+$Players->_if($messagetimer->exactly(40))->then(
+		ClearText(),
+		Display('\x013\x015W\x016e\x017l\x018c\x019o\x01am\x01be \x01ct\x01do \x01eS\x01ft'), '');
+$Players->_if($messagetimer->exactly(38))->then(
+		ClearText(),
+		Display('\x013\x011W\x015e\x016l\x017c\x018o\x019m\x01ae \x01bt\x01co \x01dS\x01et\x01fa'), '');
+$Players->_if($messagetimer->exactly(36))->then(
+		ClearText(),
+		Display('\x013\x010W\x011e\x015l\x016c\x017o\x018m\x019e \x01at\x01bo \x01cS\x01dt\x01ea\x01fr'), '');
+$Players->_if($messagetimer->exactly(34))->then(
+		ClearText(),
+		Display('\x013\x00fW\x010e\x011l\x015c\x016o\x017m\x018e \x019t\x01ao \x01bS\x01ct\x01da\x01er\x01fC'), '');
+$Players->_if($messagetimer->exactly(32))->then(
+		ClearText(),
+		Display('\x013\x00eW\x00fe\x010l\x011c\x015o\x016m\x017e \x018t\x019o \x01aS\x01bt\x01ca\x01dr\x01eC\x01fl'), '');
+$Players->_if($messagetimer->exactly(30))->then(
+		ClearText(),
+		Display('\x013\x008W\x00ee\x00fl\x010c\x011o\x015m\x016e \x017t\x018o \x019S\x01at\x01ba\x01cr\x01dC\x01el\x01fa'), '');
+$Players->_if($messagetimer->exactly(28))->then(
+		ClearText(),
+		Display('\x013\x007W\x008e\x00el\x00fc\x010o\x011m\x015e \x016t\x017o \x018S\x019t\x01aa\x01br\x01cC\x01dl\x01ea\x01fs'), '');
+$Players->_if($messagetimer->exactly(26))->then(
+		ClearText(),
+		Display('\x013\x006W\x007e\x008l\x00ec\x00fo\x010m\x011e \x015t\x016o \x017S\x018t\x019a\x01ar\x01bC\x01cl\x01da\x01es\x01fh'), '');
+$Players->_if($messagetimer->exactly(24))->then(
+		ClearText(),
+		Display('\x013\x006W\x007e\x008l\x00ec\x00fo\x010m\x011e \x015t\x016o \x017S\x018t\x019a\x01ar\x01bC\x01cl\x01da\x01es\x01fh \x002!\x005!'), '');
+$Players->_if($messagetimer->exactly(22))->then(
+		ClearText(),
+		Display('\x013\x006W\x007e\x008l\x00ec\x00fo\x010m\x011e \x015t\x016o \x017S\x018t\x019a\x01ar\x01bC\x01cl\x01da\x01es\x01fh \x004!\x003!\x001!'), '');
 
 
 
